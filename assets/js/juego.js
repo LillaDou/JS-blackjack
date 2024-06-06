@@ -17,6 +17,7 @@ let puntosJugador = 0,
 //! Referencias del HTML
 const btnPedir = document.querySelector('#btnPedir');
 
+const divCartasJugador = document.querySelector('#jugador-cartas');
 const puntosHTML = document.querySelectorAll('small');
 
 //! Crear nueva baraja
@@ -79,10 +80,24 @@ btnPedir.addEventListener('click', () => {
 
     puntosJugador = puntosJugador + valorCarta( carta );
     puntosHTML[0].innerText = puntosJugador;
-    // el puntosHTML[0] muestra la posición 0, es decir, el primer tag html <small> que hay. Si fuese
+    // puntosHTML[0] muestra la posición 0, es decir, el primer tag html <small> que hay. Si fuese
     // un 1, sería el segundo <small> del HTML.
 
-    
+    // <img class="carta" src="assets/cartas/2C.png"> :
+    const imgCarta = document.createElement('img');
+    imgCarta.src = `assets/cartas/${ carta }.png`; //3H, 2D...
+    imgCarta.classList.add('carta');
+    divCartasJugador.append( imgCarta);
+
+    if ( puntosJugador > 21 ) {
+        console.warn('Lo siento mucho, perdiste');
+        btnPedir.disabled = true;
+    }  else if ( puntosJugador === 21 ) {
+        console.warn('21, genial!');
+        btnPedir.disabled = true;
+    }
+
+
 })
 //La función de flecha indica que cuando se haga 'click' en el boton btnPedir, se ejecutarán las propiedades
 // de la función. Esto es el callback. 

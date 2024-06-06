@@ -50,3 +50,21 @@ const pedirCarta = () => {
 }
 
 // pedirCarta();
+
+
+// Valor de la carta
+
+const valorCarta = (carta) => {
+
+    // Extraer el valor de la carta: 2D = 2; 10H = 10...
+    const valor = carta.substring(0, carta.length - 1);
+    // isNaN = 'is Not a Number' en JS.
+    // Hacemos un operador ternario: si no es un número, el valor del As es 11. Si no, la letra es 10. Si es un número, muestra el valor * 1 (tipo número)
+    return ( isNaN( valor ) ) ?
+            ( valor === 'A' ) ? 11 : 10
+            : valor * 1; // Transforma el valor de tipo string a tipo número. 
+}
+
+const valor = valorCarta( pedirCarta() ); 
+console.log({valor});
+// El valor de la carta es la combinación de la función de valorCarta + la función de pedirCarta aleatoria. 

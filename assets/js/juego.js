@@ -10,7 +10,16 @@ let deck = [];
 const tipos = ['C', 'D', 'H', 'S'];
 const especiales = ['A', 'J', 'Q', 'K'];
 
-// Crear nueva baraja
+let puntosJugador = 0,
+    puntosComputadora = 0;
+
+
+//! Referencias del HTML
+const btnPedir = document.querySelector('#btnPedir');
+
+const puntosHTML = document.querySelectorAll('small');
+
+//! Crear nueva baraja
 
 const crearDeck = () => {
 
@@ -34,7 +43,7 @@ const crearDeck = () => {
 
 crearDeck();
 
-// Permite tomar una carta
+//! Permite tomar una carta
 
 const pedirCarta = () => {
     //Para asegurarnos de no quedarnos sin cartas en el deck:
@@ -43,16 +52,13 @@ const pedirCarta = () => {
     }
 
     const carta = deck.pop();
-
-    console.log(deck);
-    console.log(carta);
     return carta;
 }
 
 // pedirCarta();
 
 
-// Valor de la carta
+//! Valor de la carta
 
 const valorCarta = (carta) => {
 
@@ -65,6 +71,21 @@ const valorCarta = (carta) => {
             : valor * 1; // Transforma el valor de tipo string a tipo número. 
 }
 
-const valor = valorCarta( pedirCarta() ); 
-console.log({valor});
-// El valor de la carta es la combinación de la función de valorCarta + la función de pedirCarta aleatoria. 
+//! Eventos - botones
+
+btnPedir.addEventListener('click', () => {
+
+    const carta = pedirCarta();
+
+    puntosJugador = puntosJugador + valorCarta( carta );
+    puntosHTML[0].innerText = puntosJugador;
+    // el puntosHTML[0] muestra la posición 0, es decir, el primer tag html <small> que hay. Si fuese
+    // un 1, sería el segundo <small> del HTML.
+
+    
+})
+//La función de flecha indica que cuando se haga 'click' en el boton btnPedir, se ejecutarán las propiedades
+// de la función. Esto es el callback. 
+
+
+

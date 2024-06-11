@@ -15,8 +15,7 @@
           btnNuevo = document.querySelector('#btnNuevo');
 
 
-    const divCartasJugador = document.querySelector('#jugador-cartas'),
-          divCartasComputadora = document.querySelector('#computadora-cartas');
+    const divCartasJugadores = document.querySelectorAll('.divCartas');
 
     const puntosHTML = document.querySelectorAll('small');
 
@@ -26,7 +25,6 @@
         for( let i = 0; i < numJugadores; i++ ) {
             puntosJugadores.push(0);
         }
-        console.log({ puntosJugadores });
     }
 
     //! Crear nueva baraja
@@ -73,28 +71,39 @@
     }
 
 
-    const acumularPuntos = () => {
+    // Turno: 0 = primer jugador, el último será la computadora
+    const acumularPuntos = ( carta, turno ) => {
 
-        
+        puntosJugadores[turno] = puntosJugadores[turno] + valorCarta( carta );
+        puntosHTML[turno].innerText = puntosJugadores[turno];
+        return puntosJugadores[turno];
+
     }
 
+    const crearCarta = ( carta, turno ) => {
 
+        const imgCarta = document.createElement('img');
+        imgCarta.src = `assets/cartas/${ carta }.png`; //3H, 2D...
+        imgCarta.classList.add('carta');
+        divCartasJugadores[turno].append( imgCarta );
+
+    }
 
     //! Turno de la computadora
 
     const turnoComputadora = ( puntosMinimos ) => {
 
+        let puntosComputadora = 0;
+
         do {
             const carta = pedirCarta();
-
-            puntosComputadora = puntosComputadora + valorCarta( carta );
-            puntosHTML[1].innerText = puntosComputadora;
+            puntosComputadora = acumularPuntos(carta, puntosJugadores.length - 1);
+            crearCarta(carta, puntosJugadores.length - 1);
             
-            // <img class="carta" src="assets/cartas/2C.png"> :
-            const imgCarta = document.createElement('img');
-            imgCarta.src = `assets/cartas/${ carta }.png`; //3H, 2D...
-            imgCarta.classList.add('carta');
-            divCartasComputadora.append( imgCarta);
+            // const imgCarta = document.createElement('img');
+            // imgCarta.src = `assets/cartas/${ carta }.png`; //3H, 2D...
+            // imgCarta.classList.add('carta');
+            // divCartasComputadora.append( imgCarta);
 
             if ( puntosMinimos > 21 ) {
                 break;
@@ -120,17 +129,14 @@
     btnPedir.addEventListener('click', () => {
 
         const carta = pedirCarta();
+        const puntosJugador = acumularPuntos( carta, 0 );
 
-        puntosJugador = puntosJugador + valorCarta( carta );
-        puntosHTML[0].innerText = puntosJugador;
+        crearCarta(carta, 0);
+
+        // puntosJugador = puntosJugador + valorCarta( carta );
+        // puntosHTML[0].innerText = puntosJugador;
         // puntosHTML[0] muestra la posición 0, es decir, el primer tag html <small> que hay. Si fuese
         // un 1, sería el segundo <small> del HTML.
-
-        // <img class="carta" src="assets/cartas/2C.png"> :
-        const imgCarta = document.createElement('img');
-        imgCarta.src = `assets/cartas/${ carta }.png`; //3H, 2D...
-        imgCarta.classList.add('carta');
-        divCartasJugador.append( imgCarta);
 
         if ( puntosJugador > 21 ) {
             console.warn('Lo siento mucho, perdiste');
@@ -168,17 +174,17 @@
         // deck = [];
         // deck = crearDeck();
 
-        puntosJugador = 0;
-        puntosComputadora = 0;
+        // puntosJugador = 0;
+        // puntosComputadora = 0;
 
-        puntosHTML[0].innerText = 0;
-        puntosHTML[1].innerText = 0;
+        // puntosHTML[0].innerText = 0;
+        // puntosHTML[1].innerText = 0;
 
-        divCartasComputadora.innerHTML = ''; //El valor es: vacío
-        divCartasJugador.innerHTML = '';
+        // divCartasComputadora.innerHTML = ''; //El valor es: vacío
+        // divCartasJugador.innerHTML = '';
 
-        btnDetener.disabled = false;
-        btnPedir.disabled = false;
+        // btnDetener.disabled = false;
+        // btnPedir.disabled = false;
 
     })
 
